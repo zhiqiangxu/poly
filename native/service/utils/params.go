@@ -47,4 +47,5 @@ var (
 	HECO_ROUTER    = uint64(7)
 	QUORUM_ROUTER  = uint64(8)
 	ZILLIQA_ROUTER = uint64(9)
+	MSC_ROUTER     = uint64(10)
 )
