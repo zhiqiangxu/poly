@@ -1688,6 +1688,7 @@ func (self *Server) timerLoop() {
 }
 
 func (self *Server) processTimerEvent(evt *TimerEvent) error {
+	log.Infof("processTimerEvent for block %d evtType %v", evt.blockNum, evt.evtType)
 	switch evt.evtType {
 	case EventProposalBackoff:
 		// 1. if endorsed, return
