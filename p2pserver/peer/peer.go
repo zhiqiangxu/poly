@@ -356,8 +356,15 @@ func (this *Peer) Send(msg types.Message, isConsensus bool) error {
 }
 
 func (this *Peer) SendRaw(msgType string, msgPayload []byte, isConsensus bool) error {
+	start := time.Now()
 	this.connLock.Lock()
-	defer this.connLock.Unlock()
+	defer func() {
+		this.connLock.Unlock()
+		duration := time.Now().Sub(start)
+		if duration > time.Millisecond*100 {
+			log.Infof("[p2p] SendRaw took %s, payload length %d", time.Now().Sub(start).String(), len(msgPayload))
+		}
+	}()
 
 	if isConsensus && this.ConsLink.Valid() {
 		return this.sendToCons(msgType, msgPayload)
