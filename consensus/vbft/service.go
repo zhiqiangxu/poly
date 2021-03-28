@@ -718,6 +718,8 @@ func (self *Server) startNewRound() error {
 		self.processProposalMsg(proposal)
 		return nil
 	}
+
+	log.Infof("started tx ticker and block timeout for block %d", blkNum)
 	self.timer.startTxTicker(blkNum)
 	self.timer.StartTxBlockTimeout(blkNum)
 	return nil
