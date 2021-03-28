@@ -360,10 +360,7 @@ func (this *Peer) SendRaw(msgType string, msgPayload []byte, isConsensus bool) e
 	this.connLock.Lock()
 	defer func() {
 		this.connLock.Unlock()
-		duration := time.Now().Sub(start)
-		if duration > time.Millisecond*100 {
-			log.Infof("[p2p] SendRaw took %s, payload length %d addr %s", time.Now().Sub(start).String(), len(msgPayload), this.GetAddr())
-		}
+		log.Infof("[p2p] SendRaw took %s, payload length %d addr %s", time.Now().Sub(start).String(), len(msgPayload), this.GetAddr())
 	}()
 
 	if isConsensus && this.ConsLink.Valid() {
