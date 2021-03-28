@@ -243,16 +243,16 @@ func (this *Peer) SetConsPort(port uint16) {
 	this.ConsLink.SetPort(port)
 }
 
-//SendToSync call sync link to send buffer
-func (this *Peer) SendToSync(msgType string, msgPayload []byte) error {
+//sendToSync call sync link to send buffer
+func (this *Peer) sendToSync(msgType string, msgPayload []byte) error {
 	if this.SyncLink != nil && this.SyncLink.Valid() {
 		return this.SyncLink.SendRaw(msgPayload)
 	}
 	return errors.New("[p2p]sync link invalid")
 }
 
-//SendToCons call consensus link to send buffer
-func (this *Peer) SendToCons(msgType string, msgPayload []byte) error {
+//sendToCons call consensus link to send buffer
+func (this *Peer) sendToCons(msgType string, msgPayload []byte) error {
 	if this.ConsLink != nil && this.ConsLink.Valid() {
 		return this.ConsLink.SendRaw(msgPayload)
 	}
@@ -356,10 +356,13 @@ func (this *Peer) Send(msg types.Message, isConsensus bool) error {
 }
 
 func (this *Peer) SendRaw(msgType string, msgPayload []byte, isConsensus bool) error {
+	this.connLock.Lock()
+	defer this.connLock.Unlock()
+
 	if isConsensus && this.ConsLink.Valid() {
-		return this.SendToCons(msgType, msgPayload)
+		return this.sendToCons(msgType, msgPayload)
 	}
-	return this.SendToSync(msgType, msgPayload)
+	return this.sendToSync(msgType, msgPayload)
 }
 
 //SetHttpInfoState set peer`s httpinfo state
