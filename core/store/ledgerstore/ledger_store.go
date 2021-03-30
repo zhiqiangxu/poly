@@ -853,6 +853,10 @@ func (this *LedgerStoreImp) saveHeaderIndexList() error {
 }
 
 func (this *LedgerStoreImp) PreExecuteContract(tx *types.Transaction) (*cstates.PreExecResult, error) {
+	start := time.Now()
+	defer func() {
+		log.Infof("PreExecuteContract took %s\n", time.Now().Sub(start).String())
+	}()
 	result := &sstate.PreExecResult{State: event.CONTRACT_STATE_FAIL, Result: nil}
 	if _, ok := tx.Payload.(*payload.InvokeCode); !ok {
 		return result, fmt.Errorf("transaction payload type error")
