@@ -83,6 +83,7 @@ func (this *Neo3Handler) SyncBlockHeader(native *native.NativeService) error {
 	if err != nil {
 		return fmt.Errorf("neo3 MakeDepositProposal, side_chain_manager.GetSideChain error: %v", err)
 	}
+
 	var newNeoConsensus *NeoConsensus
 	for _, v := range params.Headers {
 		header := new(NeoBlockHeader)
@@ -91,6 +92,7 @@ func (this *Neo3Handler) SyncBlockHeader(native *native.NativeService) error {
 		}
 		if !header.GetNextConsensus().Equals(neoConsensus.NextConsensus) && header.GetIndex() > neoConsensus.Height {
 			if err = verifyHeader(native, params.ChainID, header, helper.BytesToUInt32(sideChain.ExtraInfo)); err != nil {
+
 				return fmt.Errorf("Neo3Handler SyncBlockHeader, verifyHeader error: %v", err)
 			}
 			newNeoConsensus = &NeoConsensus{
