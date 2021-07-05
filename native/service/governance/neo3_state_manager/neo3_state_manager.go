@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2020 The poly network Authors
+ * This file is part of The poly network library.
+ *
+ * The  poly network  is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The  poly network  is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with The poly network .  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package neo3_state_manager
 
 import (
@@ -25,17 +42,6 @@ const (
 	STATE_VALIDATOR_REMOVE_ID = "stateValidatorRemoveID"
 )
 
-// todo, review code
-
-func GetCurrentStateValidator(native *native.NativeService) ([]byte, error) {
-	svs, err := getStateValidators(native)
-	if err != nil {
-		return utils.BYTE_FALSE, fmt.Errorf("GetCurrentStateValidator, getStateValidators error: %v", err)
-	}
-	data := SerializeStringArray(svs)
-	return data, nil
-}
-
 //Register methods of node_manager contract
 func RegisterStateValidatorManagerContract(native *native.NativeService) {
 	native.Register(GET_CURRENT_STATE_VALIDATOR, GetCurrentStateValidator)
@@ -43,6 +49,14 @@ func RegisterStateValidatorManagerContract(native *native.NativeService) {
 	native.Register(APPROVE_REGISTER_STATE_VALIDATOR, ApproveRegisterStateValidator)
 	native.Register(REMOVE_STATE_VALIDATOR, RemoveStateValidator)
 	native.Register(APPROVE_REMOVE_STATE_VALIDATOR, ApproveRemoveStateValidator)
+}
+
+func GetCurrentStateValidator(native *native.NativeService) ([]byte, error) {
+	data, err := getStateValidators(native)
+	if err != nil {
+		return utils.BYTE_FALSE, fmt.Errorf("GetCurrentStateValidator, getStateValidators error: %v", err)
+	}
+	return data, nil
 }
 
 func RegisterStateValidator(native *native.NativeService) ([]byte, error) {
@@ -148,6 +162,8 @@ func ApproveRemoveStateValidator(native *native.NativeService) ([]byte, error) {
 	if err != nil {
 		return utils.BYTE_FALSE, fmt.Errorf("ApproveRemoveStateValidator, removeStateValidators error: %v", err)
 	}
+
+	native.GetCacheDB().Delete(utils.ConcatKey(utils.Neo3StateManagerContractAddress, []byte(STATE_VALIDATOR_REMOVE), utils.GetUint64Bytes(params.ID)))
 
 	native.AddNotify(
 		&event.NotifyEventInfo{

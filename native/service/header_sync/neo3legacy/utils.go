@@ -15,13 +15,13 @@
  * along with The poly network .  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package neo3
+package neo3legacy
 
 import (
 	"fmt"
-	"github.com/joeqian10/neo3-gogogo/crypto"
-	"github.com/joeqian10/neo3-gogogo/sc"
-	"github.com/joeqian10/neo3-gogogo/tx"
+	"github.com/joeqian10/neo3-gogogo-legacy/crypto"
+	"github.com/joeqian10/neo3-gogogo-legacy/sc"
+	"github.com/joeqian10/neo3-gogogo-legacy/tx"
 	"github.com/polynetwork/poly/common"
 	cstates "github.com/polynetwork/poly/core/states"
 	"github.com/polynetwork/poly/native"

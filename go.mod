@@ -16,9 +16,11 @@ require (
 	github.com/howeyc/gopass v0.0.0-20190910152052-7cb4b85ec19c
 	github.com/itchyny/base58-go v0.1.0
 	github.com/joeqian10/neo-gogogo v1.1.0
-	github.com/joeqian10/neo3-gogogo v0.3.3
+	github.com/joeqian10/neo3-gogogo v0.3.6
+	github.com/joeqian10/neo3-gogogo-legacy v1.0.0
 	github.com/kardiachain/go-kaiclient v1.0.2-0.20210525090440-5f0648f4d185
 	github.com/kardiachain/go-kardia v1.2.3-0.20210525082104-2913103edf92
+
 	github.com/ontio/ontology v1.11.1-0.20200812075204-26cf1fa5dd47
 	github.com/ontio/ontology-crypto v1.0.9
 	github.com/ontio/ontology-eventbus v0.9.1
